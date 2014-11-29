@@ -44,36 +44,33 @@ class AlJazeeraAPI(object):
         )
         s.save()
         entities = []
-        for k, v in story['metadata'].items():
-            entity_type = EntityType(entity_type=k)
-            entity_type.save()
-            if isinstance(v, dict):
-                entity_obj = Entity(
-                    entity_name=v['@value'],
-                    entity_type=entity_type
-                    )
-                entity_obj.save()
-                entities.append(entity_obj)
-            else:
-                for e in v:
-                    entity = Entity(
-                        entity_name=e['@value'],
+        if story['metadata'] is not None:
+            for k, v in story['metadata'].items():
+                entity_type = EntityType.get_or_create(entity_type=k)
+                if isinstance(v, dict):
+                    entity_obj = Entity.get_or_create(
+                        entity_name=v['@value'],
                         entity_type=entity_type
-                    )
-                    entity.save()
-                    entities.append(entity)
+                        )
+                    entities.append(entity_obj)
+                else:
+                    for e in v:
+                        entity = Entity.get_or_create(
+                            entity_name=e['@value'],
+                            entity_type=entity_type
+                        )
+                        entities.append(entity)
         s.entities.add(*entities)
 
-def get_all_stories():
-    n = 1
+def get_all_stories(startpage=1):
     while True:
-        print 'Page %d' % n
+        print 'Page %d' % startpage
+        api = AlJazeeraAPI()
         try:
-            api = AlJazeeraAPI()
+            stories = api.query_story('latest', pagenumber=startpage)
         except Exception as e:
-            print 'Failed on page %d with message %s' % (n, e.message)
-        stories = api.query_story('latest', pagenumber=n)
+            print 'Failed on page %d with message %s' % (startpage, e.message)
         for story in stories:
             api.save_story(story)
-        n += 1
+        startpage += 1
 
