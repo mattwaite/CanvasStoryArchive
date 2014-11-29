@@ -1,10 +1,16 @@
 from django.db import models
+from django.utils.html import strip_tags
+from django.utils.text import slugify
 
 class EntityType(models.Model):
     entity_type = models.CharField(max_length=255)
     entity_type_slug = models.SlugField()
     def __unicode__(self):
         return self.entity_type
+    def save(self, *args, **kwargs):
+        self.entity_type_slug = slugify(self.entity_type)
+        super(EntityType, self).save(*args, **kwargs)
+
 
 class Entity(models.Model):
     entity_type = models.ForeignKey(EntityType, blank=True, null=True)
@@ -14,6 +20,10 @@ class Entity(models.Model):
         verbose_name_plural = "entities"
     def __unicode__(self):
         return self.entity_name
+    def save(self, *args, **kwargs):
+        self.entity_name_slug = slugify(self.entity_name)
+        super(Story, self).save(*args, **kwargs)
+
 
 class Story(models.Model):
     headline = models.CharField(max_length=255)
@@ -31,3 +41,7 @@ class Story(models.Model):
         verbose_name_plural = "stories"
     def __unicode__(self):
         return self.headline
+    def save(self, *args, **kwargs):
+        self.word_count = len(strip_tags(self.full_text).split(' '))
+        self.headline_slug = slugify(self.headline)
+        super(Story, self).save(*args, **kwargs)
