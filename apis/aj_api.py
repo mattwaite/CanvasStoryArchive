@@ -46,21 +46,22 @@ class AlJazeeraAPI(object):
         entities = []
         if story['metadata'] is not None:
             for k, v in story['metadata'].items():
-                entity_type = EntityType.get_or_create(entity_type=k)
+                entity_type, entity_type_created = EntityType.objects.get_or_create(entity_type=k)
                 if isinstance(v, dict):
-                    entity_obj = Entity.get_or_create(
+                    entity_obj, entity_created = Entity.objects.get_or_create(
                         entity_name=v['@value'],
                         entity_type=entity_type
                         )
                     entities.append(entity_obj)
                 else:
                     for e in v:
-                        entity = Entity.get_or_create(
+                        entity, entity_created = Entity.objects.get_or_create(
                             entity_name=e['@value'],
                             entity_type=entity_type
                         )
                         entities.append(entity)
         s.entities.add(*entities)
+
 
 def get_all_stories(startpage=1):
     while True:
