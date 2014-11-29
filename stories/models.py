@@ -6,11 +6,15 @@ class EntityType(models.Model):
     def __unicode__(self):
         return self.entity_type
 
+
 class Entity(models.Model):
     entity_name = models.CharField(max_length=255)
     entity_name_slug = models.SlugField()
+    class Meta:
+        verbose_name_plural = "entities"
     def __unicode__(self):
         return self.entity_name
+
 
 class Story(models.Model):
     headline = models.CharField(max_length=255)
@@ -20,5 +24,7 @@ class Story(models.Model):
     full_text = models.TextField()
     word_count = models.IntegerField()
     entities = models.ManyToManyField(Entity)
+    class Meta:
+        verbose_name_plural = "stories"
     def __unicode__(self):
         return self.headline
