@@ -22,6 +22,8 @@ class Story(models.Model):
     pubdate = models.DateTimeField()
     description = models.TextField()
     full_text = models.TextField()
+    large_image_url = models.URLField(blank=True, null=True)
+    small_image_url = models.URLField(blank=True, null=True)
     word_count = models.IntegerField()
     entities = models.ManyToManyField(Entity)
     class Meta:
