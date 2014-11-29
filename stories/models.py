@@ -22,7 +22,7 @@ class Entity(models.Model):
         return self.entity_name
     def save(self, *args, **kwargs):
         self.entity_name_slug = slugify(self.entity_name)
-        super(Story, self).save(*args, **kwargs)
+        super(Entity, self).save(*args, **kwargs)
 
 
 class Story(models.Model):

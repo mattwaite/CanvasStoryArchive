@@ -20,7 +20,7 @@ class AlJazeeraAPI(object):
     BASE_URL = 'http://devapi.aljazeera.com/v1/'+AJ_API_LANGUAGE+'/stories/'
     AJ_API_KEY = os.getenv('ALJAZEERA_API_KEY')
 
-    def query_story(self, section, pagesize=15, pagenumber=1):
+    def query_story(self, section, pagesize=100, pagenumber=1):
         params = {
             'format': 'json',
             'apikey': self.AJ_API_KEY,
@@ -64,5 +64,16 @@ class AlJazeeraAPI(object):
                     entities.append(entity)
         s.entities.add(*entities)
 
-    def get_all(self):
-        stories = query_story('latest', pagenumber=n)
+def get_all_stories():
+    n = 1
+    while True:
+        print 'Page %d' % n
+        try:
+            api = AlJazeeraAPI()
+        except Exception as e:
+            print 'Failed on page %d with message %s' % (n, e.message)
+        stories = api.query_story('latest', pagenumber=n)
+        for story in stories:
+            api.save_story(story)
+        n += 1
+
