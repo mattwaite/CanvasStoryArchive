@@ -6,8 +6,8 @@ class EntityType(models.Model):
     def __unicode__(self):
         return self.entity_type
 
-
 class Entity(models.Model):
+    entity_type = models.ForeignKey(EntityType, blank=True, null=True)
     entity_name = models.CharField(max_length=255)
     entity_name_slug = models.SlugField()
     class Meta:
@@ -15,9 +15,9 @@ class Entity(models.Model):
     def __unicode__(self):
         return self.entity_name
 
-
 class Story(models.Model):
     headline = models.CharField(max_length=255)
+    headline_slug = models.SlugField(blank=True, null=True)
     byline = models.CharField(max_length=255)
     pubdate = models.DateTimeField()
     description = models.TextField()
