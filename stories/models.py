@@ -24,6 +24,7 @@ class Story(models.Model):
     full_text = models.TextField()
     large_image_url = models.URLField(blank=True, null=True)
     small_image_url = models.URLField(blank=True, null=True)
+    video_url = models.URLField(blank=True, null=True)
     word_count = models.IntegerField()
     entities = models.ManyToManyField(Entity)
     class Meta:
