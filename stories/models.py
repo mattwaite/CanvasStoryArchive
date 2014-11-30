@@ -1,4 +1,5 @@
 from django.db import models
+
 from textblob import TextBlob
 from collections import Counter
 from bs4 import BeautifulSoup
@@ -59,6 +60,10 @@ class Story(models.Model):
         for k, v in counts.items():
             nounct = NounCount.objects.create(noun=k, noun_count=v)
             noun = self.nouns.add(nounct)
+    def save(self, *args, **kwargs):
+        self.word_count = len(strip_tags(self.full_text).split(' '))
+        self.headline_slug = slugify(self.headline)
+        super(Story, self).save(*args, **kwargs)
     def __unicode__(self):
         return self.headline
         
@@ -70,7 +75,3 @@ class RelatedStories(models.Model):
     countsum = models.IntegerField()
     def __unicode__(self):
         return self.story1.headline
-    def save(self, *args, **kwargs):
-        self.word_count = len(strip_tags(self.full_text).split(' '))
-        self.headline_slug = slugify(self.headline)
-        super(Story, self).save(*args, **kwargs)
