@@ -1,5 +1,6 @@
 Django==1.7.1
 beautifulsoup4==4.3.2
+django-cors-headers==0.13
 django-tastypie==0.12.1
 nltk==3.0.0
 python-dateutil==2.2

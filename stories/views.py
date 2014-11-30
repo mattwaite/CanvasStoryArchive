@@ -1,5 +1,6 @@
 import json
 import string
+import urllib
 from stories.models import Entity, EntityType
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -10,9 +11,10 @@ def get_relevant_stories(entity):
     stories = {}
     stories['latest'] = query_by_date.last()
     stories['earliest'] = query_by_date.first()
-    excluded_query = entity.story_set.exclude(id__in=[stories['latest'].id, stories['earliest'].id])
-    stories['longest'] = excluded_query.order_by('-word_count').first()
-    stories['video'] = excluded_query.exclude(id=stories['longest'].id).filter(video_url__isnull=False).first()
+    excluded_stories = [stories['latest'].id if stories['latest'] is not None else None] + [stories['earliest'].id if stories['earliest'] is not None else None]
+    stories['longest'] = entity.story_set.exclude(id__in=excluded_stories).order_by('-word_count').first()
+    excluded_stories += [stories['longest'].id if stories['longest'] is not None else None]
+    stories['video'] = entity.story_set.exclude(id__in=excluded_stories).filter(video_url__isnull=False).first()
     stories = dict(filter(lambda i: i[1] is not None, stories.items()))
 
     return [{
@@ -56,7 +58,9 @@ def loop_through_words(words, words_offset=0, entity_matches=[]):
                     'stories': get_relevant_stories(entity),
                     'words_offset': new_offset
                     })
-                return loop_through_words(words[index+entity_word_length:], words_offset=new_offset+entity_word_length, entity_matches=entity_matches)
+                return loop_through_words(words[index+entity_word_length:],
+                    words_offset=new_offset+entity_word_length, 
+                    entity_matches=entity_matches)
     return entity_matches
 
 
