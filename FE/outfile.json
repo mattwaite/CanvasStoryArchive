@@ -1,51 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Canvas Connect</title>
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
-</head>
-<body>
-
-<script type="text/javascript" src="outfile.json"></script>
-<script>
-
-
-console.log("inside load");
-
-//store the return in data
-
-function submit(){
-
-console.log("submit function is called");
-
-//get article value and print
-var article = $('#textEditor').val();
-console.log(article);
-
-//send article
-
-/* 
-$.ajax({
-	type:"POST",
-	url: '/fulltext',
-	data: {'text': article},
-	success: 
-	dataType: 'JSON'
-})
-*/
-
-//set data
-//data = JSON.parse(results);
-
-var results =
-[
+results =
+{
+  "results": [
     {
       "id": 2907,
       "entity_name": "Michael Brown",
       "entity_type": "Person",
-      "category":"person",
       "entity_name_length": 2,
       "words_offset": 22,
       "stories": [
@@ -93,46 +52,12 @@ var results =
           "id": 242,
           "video_url": null
         }
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "Black Friday sales in New York, Chicago, Seattle and San Francisco disrupted by activists angered by jury decision.",
-          "pubdate": "2014-11-29T07:40:34",
-          "headline": "Ferguson protests target retailers across US",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "type": "latest",
-          "id": 243,
-          "video_url": null
-        },
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "Black Friday sales in New York, Chicago, Seattle and San Francisco disrupted by activists angered by jury decision.",
-          "pubdate": "2014-11-29T07:40:34",
-          "headline": "Ferguson protests target retailers across US",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "type": "latest",
-          "id": 244,
-          "video_url": null
-        },
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "Black Friday sales in New York, Chicago, Seattle and San Francisco disrupted by activists angered by jury decision.",
-          "pubdate": "2014-11-29T07:40:34",
-          "headline": "Ferguson protests target retailers across US",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "type": "latest",
-          "id": 245,
-          "video_url": null
-        }
       ]
     },
     {
       "id": 2913,
       "entity_name": "white police officer",
       "entity_type": "Position",
-      "category":"thing",
       "entity_name_length": 3,
       "words_offset": 36,
       "stories": [
@@ -171,49 +96,5 @@ var results =
         }
       ]
     }
-  ];
-
-console.log(results);
-
-//var data = JSON.parse(results)
-
-
-console.log("Entitiy name is " + results[0].entity_name);
-console.log("Length is " + results.length);
-
-//for each word, go to the word and color it 
-
-
-}//close submit function
-
-console.log("I'm here!");
-
-
-
-</script>
-
-<!--<img src="leftsidebar.jpg" align="left" style="width:15%;">
-<img src="rightsidebar.jpg" align="right" style="width:20%;">
-<img src="topcenter.jpg" style="width:65%">
-<img src="middle_content_area2.jpg"  style="width:65%;">
-<textarea name="title" rows="2" cols="97" class="form"> title </textarea>-->
-
-
-<!-- Define the form-->
-
-<form id="article_template" >
-	<input type="text" headline="headline"/>
-	<input type="text" article="article"/>
-</form>
-
-
-<textarea name="article" rows="80" cols="97" class="form" id="textEditor"> </textarea>
-
-
-
-<img src="icon.gif" id='#button' onClick='submit()'/>
-
-
-
-</body>
-</html>
+  ]
+}
