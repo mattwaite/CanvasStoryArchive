@@ -237,7 +237,9 @@ function assignColors(numWords, arrayChange, entitynumber){
 	for(var k = numWords; k >= 0; k--) {
 
 		//change the HTML
-		articleArray[arrayChange+k] = '<span style="background-color:' + color + '">' + articleArray[arrayChange+k] + '</span>';
+		//articleArray[arrayChange+k] = '<span style="background-color:' + color + '">' + articleArray[arrayChange+k] + '</span>';
+
+		articleArray[arrayChange+k] = '<span style="background-color:' + color + '" onclick="makeLinks(' + entitynumber + ')">' + articleArray[arrayChange+k] + '</span>';
 
 			
 	};//close for
@@ -254,12 +256,61 @@ $("#button").hide();
 //print the html to the screen
 var htmlready = '<p>' + endArticle + '</p>';
 
+console.log(htmlready);
+
 $("div.container").html(htmlready);
+
+
+
 
 }//close submit function
 
 
+//makes the link box
+function makeLinks(entityIndex){
 
+	console.log("Make links is called!");
+
+	//console.log(articleObj);
+
+
+	boxHTML = '<span class="title">Suggested Links</span>';
+
+	for (var g = 0; g <= results[entityIndex].stories.length - 1; g++) {
+
+
+	//refers to how many stories are in the entity
+
+	boxHTML = boxHTML + '<div class="oneLink"><span class="headline" onClick="linkMe()">' + results[entityIndex].stories[g].headline + '<br></span><span class="byline">By ' + results[entityIndex].stories[g].byline + ',</span><span class="date">' + results[entityIndex].stories[g].pubdate + '</span></div>';
+
+
+
+}//end for
+
+$("div.popupbox").html(boxHTML);
+
+
+/*
+<!-- ONE LITTLE BOX -->
+
+<div class="oneLink">
+<span class="headline">Ferguson protests target retailers across US<br> </span>
+<span class="byline">By Al Jazeera,</span>
+<span class="date">2014-11-29</span>
+</div>
+
+	console.log("byline is " + results[entityIndex].stories[g].byline);
+	console.log("pubdate is " + results[entityIndex].stories[g].pubdate);
+	console.log("headline is " + results[entityIndex].stories[g].headline);
+	}//end for loop
+
+*/
+
+}//end makeLinks
+
+function linkMe(){
+	console.log("Link me is called!");
+}
 
 </script>
 
@@ -284,6 +335,10 @@ $("div.container").html(htmlready);
 </form>
 -->
 </div>
+
+<div class="popupbox">
+
+	</div>
 
 <img src="icon.gif" id='button' onClick='submit()'/>
 
