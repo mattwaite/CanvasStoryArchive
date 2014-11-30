@@ -35,16 +35,18 @@ def loop_through_words(words, words_offset=0, entity_matches=[]):
             ).prefetch_related('story_set')
         for entity in e:
             entity_words = entity.entity_name.split(' ')
+            entity_word_length = len(entity_words)
             if words[index:index+len(entity_words)] == entity_words and not entity.id in [i['id'] for i in entity_matches]:
                 new_offset = words_offset + index
                 entity_matches.append({
                     'id': entity.id,
                     'entity_name': entity.entity_name,
                     'entity_type': entity.entity_type.entity_type,
+                    'entity_name_length': entity_word_length,
                     'stories': get_relevant_stories(entity),
                     'words_offset': new_offset
                     })
-                return loop_through_words(words[index+len(entity_words):], words_offset=new_offset+len(entity_words), entity_matches=entity_matches)
+                return loop_through_words(words[index+entity_word_length:], words_offset=new_offset+entity_word_length, entity_matches=entity_matches)
     return entity_matches
 
 
