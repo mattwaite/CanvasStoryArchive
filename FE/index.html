@@ -11,34 +11,6 @@
 <script type="text/javascript" src="outfile.json"></script>
 <script>
 
-
-//console.log("inside load");
-
-//store the return in data
-
-function submit(){
-
-//console.log("submit function is called");
-
-//get article value and print
-var article = $('#textEditor').val();
-//console.log(article);
-
-//send article
-
-/* 
-$.ajax({
-	type:"POST",
-	url: '/fulltext',
-	data: {'text': article},
-	success: 
-	dataType: 'JSON'
-})
-*/
-
-//set data
-//data = JSON.parse(results);
-
 var results =
 [
     {
@@ -206,62 +178,38 @@ var results =
     }
   ];
 
-//console.log(results);
-
-//var data = JSON.parse(results)
+ function submit(){
 
 
-//console.log("Entitiy name is " + results[0].entity_name);
-//console.log("Length is " + results.length);
-//console.log("Category is " + results[0].category);
-//console.log("Words offset is " + results[0].words_offset)
-//console.log("Words offset is " + results[0].entity_name_length)
+//get article value
+var article = $('#textEditor').val();
+	//send article
 
-//for each word, go to the word and color it 
+	/* 
+	$.ajax({
+	type:"POST",
+	url: '/fulltext',
+	data: {'text': article},
+	success: 
+	dataType: 'JSON'
+	})
+	*/
+
 
 //change the article text to an array of strings
-
 var articleArray = article.split(" ");
 
 //create a loop that goes into each string we want to color and changes it to contain html
-
-
 //for each entity
 for (var i = 0; i <= results.length - 1; i++) {
-
-	//console.log("In first loop. i is " + i + " and results.length is " + results.length);
 
 	//cycle through the words
 	for (var j = 0; j <= articleArray.length - 1; j++) {
 
-		//console.log("In second loop. j is " + j + " and articleArray.length is " + articleArray.length);
+		//when you get to the first word
+		if(results[i].words_offset === j+1){
 
-	//when you get to the first word
-
-	//console.log("Testing to enter first if. Results[i].words_offset" + results[i].words_offset + " and articleArray[j] is " + articleArray[j]);
-
-	if(results[i].words_offset === j+1){
-
-		//console.log("In first if. Results[i].words_offset is" + results[i].words_offset + "and articleArray[j] is " + articleArray[j]);
-
-		//determine which type it is 
-		if(results[i].category === "person"){
-			//console.log("In person");
-
-			articleArray[j] = '<span style="background-color: #f4bbd6">' + articleArray[j] + '</span>';
-			//console.log("Article array now is " + articleArray);
-		}
-		else if(results[i].category === "thing"){
-			//console.log("In person");
-			articleArray[j] = '<span style="background-color: #a6dcf4">' + articleArray[j] + '</span>';
-			//console.log("Article array now is " + articleArray);
-		}
-		//place
-		else{
-			//console.log("In person");
-			articleArray[j] = '<span style="background-color: #e3e960">' + articleArray[j] + '</span>';
-			//console.log("Article array now is " + articleArray);
-		}
+			assignColors((results[i].entity_name_length-1),j,i);
 	
 	}//close if
 	
@@ -270,11 +218,34 @@ for (var i = 0; i <= results.length - 1; i++) {
 
 };//close for loop
 
-//close the loop and put the html back together using join
+function assignColors(numWords, arrayChange, entitynumber){
+
+	//console.log("assign color was called with " + numWords +" as numWords " + arrayChange + "  as arrayChange and " + entitynumber + " as entitynumber on entity " + results[entitynumber].entity_name);
+
+	var color;
+
+	if(results[entitynumber].category === "person"){
+		color = "#f4bbd6";
+	}
+	else if(results[entitynumber].category === "thing"){
+		color = "#a6dcf4";
+	}
+	else{
+		color = "#e3e960";
+	}
+
+	for(var k = numWords; k >= 0; k--) {
+
+		//change the HTML
+		articleArray[arrayChange+k] = '<span style="background-color:' + color + '">' + articleArray[arrayChange+k] + '</span>';
+
+			
+	};//close for
+}//close duplicate
+
+//Put the html back together using join
 
 var endArticle = articleArray.join(" ");
-
-//console.log("end article is "+ endArticle);
 
 //hide the form
 $("#textEditor").hide();
@@ -283,19 +254,10 @@ $("#button").hide();
 //print the html to the screen
 var htmlready = '<p>' + endArticle + '</p>';
 
-//console.log(htmlready);
-
 $("div.container").html(htmlready);
-
-//get the string you want to color
-//console.log(articleArray[21]);
-
-//reprint with the colored element
-
 
 }//close submit function
 
-//console.log("I'm here!");
 
 
 
