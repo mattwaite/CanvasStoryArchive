@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Canvas Connect</title>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+<script type="text/javascript" src="outfile.json"></script>
+<script>
+
+function populate_story(story) {
+    console.log(story);
+    $('.headline').html('<strong>'+story.headline+'</strong>');
+    $('.pubdate').html(story.pubdate);
+    $('.byline').html('<em>'+story.byline+'</em>');
+    $('.image').attr('src', story.small_image_url);
+    $('.fulltext').html(story.full_text);
+    $('.story-id').attr('value', story.id);
+}
+
+function populate_related(stories) {
+    result = ''
+    for (var i=0; i<stories.length; i++) {
+        story = stories[i].story2;
+        console.log(story);
+        result += "<blockquote>"
+        result += "<div class='related-headline'><a href='"+story.link+"', target='blank'><strong>"+story.headline+"</strong></a></div>"
+        result += "<div></div>"
+        result += "<div class='related-description'>"+story.description+"</div>"
+        result += "<div></div>"
+        result += "<div class='related-pubdate'>"+story.pubdate+"</div>"
+        result += "<div class='related-byline'><em>"+story.byline+"</em></div>"
+        result += "<img src='"+story.small_image_url+"'>"
+        result += "</blockquote>"
+        result += "<hr />"
+    }
+    $('.related_articles').html(result)
+}
+
+
+function submit() {
+    $.ajax({
+        type:"GET",
+        url: 'http://localhost:8000/api/related/?limit=10&story1=' + $('.story-id').attr('value'),
+        success: function(data) {
+            console.log(data);
+            populate_related(data.objects);
+            //results = data['results'];
+        },
+        async: false
+    });
+}
+
+</script>
+
+
+<img src="logo.gif" width="100%">
+<div class="container">
+    <div><em>Story id</em></div>
+    <input class="story-id-form" type="text" />
+    <button class="story-submit">Submit</button>
+    <p></p>
+
+    <div class="article">
+        <div class="headline"><strong>Jury decides not to indict Ferguson policeman</strong></div>
+        <div class="pubdate">November 25, 2014</div>
+        <div class="byline"><em>Al Jazeera</em></div>
+        <img class="image" src="http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/25/2014112544646447734_20.jpg" />
+        <div class="fulltext">
+            <p>A grand jury has ruled that Darren Wilson, a white police officer, accused of shooting dead an unarmed black teenager in August will not be charged.</p>
+            <p>St. Louis County Prosecuting Attorney Bob McCulloch announced the decision on Monday evening. A grand jury of nine white and three black members had been meeting weekly since August 20 to consider evidence.</p>
+            <p>McCulloch stressed that the grand jurors were "the only people who heard every witness ... and every piece of evidence".</p>
+            <div>
+
+            </div>
+            <p>He said many witnesses presented conflicting statements that ultimately were inconsistent with the physical evidence.</p>
+            <p>In a statement released shortly after the decision the Brown family said: "We are profoundly disappointed that the killer of our child will not face the consequence of his actions."</p>
+            <p>"While we understand that many others share our pain, we ask that you channel your frustration in ways that will make a positive change. We need to work together to fix the system that allowed this to happen," the statement added.</p>
+            <p>"We respectfully ask that you please keep your protests peaceful. Answering violence with violence is not the appropriate reaction. Let's not just make noise, let's make a difference," it said.</p>
+            <p><STRONG><i><span style="font-size: 14px;">React peacefully</span></i></STRONG></p>
+            <p>President Barack Obama urged people of Ferguson to react peacefully to grand jury decision and asked police to show restraint.</p>
+            <p>"We are a nation built on the rule of law, so we need to accept that this decision was the grand jury's to make," he said.</p>
+            <div>
+            </div>
+            <p>Brown's mother, Lesley McSpadden, who was sitting atop a car, burst into tears and began screaming before being whisked away by supporters.</p>
+            <p>The crowd erupted in anger, converging on the barricade where police in riot gear were standing. They pushed down the barricade and began pelting police with items, including a bullhorn. Police stood their ground.</p>
+            <p>The Justice Department is also conducting an investigation into possible civil rights violations that could result in federal charges.</p>
+            <p>The fatal shooting of Brown sparked angry protests in the St. Louis suburb of Ferguson.</p>
+            <p>Missouri Governor Jay Nixon traveled to St Louis and held a news conference ahead of the announcement, asking for "peace, respect and restraint".</p>
+            <p>Authorities quickly stepped up security around the courthouse where the decision was announced. Some nearby businesses boarded up their windows, just as many shops have already done near the site of Brown's death in Ferguson.</p>
+        </div>
+        <div class="story-id" type="hidden" value="403"></div>
+    </div>
+    <img src="icon.gif" id='button' onClick='submit()'/>
+
+    <div class="related_articles">
+    </div>
+</div>
+
+<script>
+    $('.story-submit').click(function() {
+        var article_id = $('.story-id-form').val()
+        console.log(article_id);
+        $.ajax({
+            type:"GET",
+            url: 'http://localhost:8000/api/story/' + article_id,
+            success: function(data) {
+                populate_story(data);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

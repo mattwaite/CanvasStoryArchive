@@ -23,7 +23,7 @@ def get_relevant_stories(entity):
         'guid': story.guid,
         'headline': story.headline,
         'byline': story.byline,
-        'pubdate': story.pubdate.strftime('%Y-%m-%dT%H:%M:%S'),
+        'pubdate': story.pubdate.strftime('%B %m, %Y'),
         'description': story.description,
         'large_image_url': story.large_image_url,
         'small_image_url': story.small_image_url,

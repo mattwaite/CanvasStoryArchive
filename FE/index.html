@@ -3,6 +3,34 @@
 <head>
   <title>Canvas Connect</title>
   <style>
+    .popupbox {
+      border-style:solid;
+      border-width:3px;
+      border-color:#9e9e9e;
+      border-padding:2px;
+      display:none;
+    }
+    .oneLink {
+      border-style:solid;
+      border-width:2px;
+      border-color:#9e9e9e;
+    }
+    .title {
+      font-size:15px;
+      color:#9e9e9e;
+      padding:5px;
+    }
+    .headline {
+      font-size:12px;
+      font-weight:bold;
+      color:#000000;
+    }
+    .byline {
+      font-size:10px;
+      color:#9e9e9e;
+      font-weight:lighter;
+      padding:2px;
+    }
 
   </style>
 
@@ -14,179 +42,24 @@
 <script type="text/javascript" src="outfile.json"></script>
 <script>
 
-var results =
-[
-    {
-      "id": 2907,
-      "entity_name": "Michael Brown",
-      "entity_type": "Person",
-      "category":"person",
-      "entity_name_length": 2,
-      "words_offset": 22,
-      "stories": [
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/10/11/2014101153956741580_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "A crowd of about 300 people gather outside police station in Missouri after another black teenager is shot dead. ",
-          "pubdate": "2014-10-11T07:23:02",
-          "headline": "Fresh protests in US over police violence",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/10/11/2014101153956741580_20.jpg",
-          "type": "earliest",
-          "id": 3694,
-          "video_url": null
-        },
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/11/26/20141126223117823734_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "Michael Brown's parents say jury's decision not to charge white officer who killed their unarmed son was \"unbelievable\".",
-          "pubdate": "2014-11-27T07:01:34",
-          "headline": "Family says Ferguson decision 'heartbreaking'",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/26/20141126223117823734_20.jpg",
-          "type": "video",
-          "id": 320,
-          "video_url": "http://bc05.ajnm.me/665003303001/201411/1747/665003303001_3912172556001_20141127-FERGUSON2-KSA-01D-27.mp4?videoId=3912149721001"
-        },
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/11/26//201411267521599734_20.jpg",
-          "byline": "Dexter Thomas ",
-          "description": "There's a reason that Ferguson looks like a horror movie - the main character was a monster.",
-          "pubdate": "2014-11-26T10:45:05",
-          "headline": "Michael Brown was not a boy, he was a 'demon'",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/26//201411267521599734_20.jpg",
-          "type": "longest",
-          "id": 351,
-          "video_url": null
-        },
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "Black Friday sales in New York, Chicago, Seattle and San Francisco disrupted by activists angered by jury decision.",
-          "pubdate": "2014-11-29T07:40:34",
-          "headline": "Ferguson protests target retailers across US",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "type": "latest",
-          "id": 242,
-          "video_url": null
-        },
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "Black Friday sales in New York, Chicago, Seattle and San Francisco disrupted by activists angered by jury decision.",
-          "pubdate": "2014-11-29T07:40:34",
-          "headline": "Ferguson protests target retailers across US",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "type": "latest",
-          "id": 243,
-          "video_url": null
-        },
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "Black Friday sales in New York, Chicago, Seattle and San Francisco disrupted by activists angered by jury decision.",
-          "pubdate": "2014-11-29T07:40:34",
-          "headline": "Ferguson protests target retailers across US",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "type": "latest",
-          "id": 244,
-          "video_url": null
-        },
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "Black Friday sales in New York, Chicago, Seattle and San Francisco disrupted by activists angered by jury decision.",
-          "pubdate": "2014-11-29T07:40:34",
-          "headline": "Ferguson protests target retailers across US",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "type": "latest",
-          "id": 245,
-          "video_url": null
-        }
-      ]
-    },
-    {
-      "id": 2913,
-      "entity_name": "white police officer",
-      "entity_type": "Position",
-      "category":"thing",
-      "entity_name_length": 3,
-      "words_offset": 36,
-      "stories": [
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/10/11/2014101153956741580_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "A crowd of about 300 people gather outside police station in Missouri after another black teenager is shot dead. ",
-          "pubdate": "2014-10-11T07:23:02",
-          "headline": "Fresh protests in US over police violence",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/10/11/2014101153956741580_20.jpg",
-          "type": "earliest",
-          "id": 3694,
-          "video_url": null
-        },
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/images/2014/11/26//20141126790145734_20.jpg",
-          "byline": "Aram Goudsouzian",
-          "description": "Many African Americans live in segregated neighbourhoods, endure a racially biased criminal justice system.",
-          "pubdate": "2014-11-27T09:51:54",
-          "headline": "'One black, one white, separate and unequal'",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/images/2014/11/26/20141126790145734_20.jpg",
-          "type": "longest",
-          "id": 313,
-          "video_url": null
-        },
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "Black Friday sales in New York, Chicago, Seattle and San Francisco disrupted by activists angered by jury decision.",
-          "pubdate": "2014-11-29T07:40:34",
-          "headline": "Ferguson protests target retailers across US",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "type": "latest",
-          "id": 242,
-          "video_url": null
-        },
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "Black Friday sales in New York, Chicago, Seattle and San Francisco disrupted by activists angered by jury decision.",
-          "pubdate": "2014-11-29T07:40:34",
-          "headline": "Ferguson protests target retailers across US",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "type": "latest",
-          "id": 249,
-          "video_url": null
-        },
-            {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "Black Friday sales in New York, Chicago, Seattle and San Francisco disrupted by activists angered by jury decision.",
-          "pubdate": "2014-11-29T07:40:34",
-          "headline": "Ferguson protests target retailers across US",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "type": "latest",
-          "id": 250,
-          "video_url": null
-        },
-        {
-          "large_image_url": "http://www.aljazeera.com/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "byline": "Al Jazeera",
-          "description": "Black Friday sales in New York, Chicago, Seattle and San Francisco disrupted by activists angered by jury decision.",
-          "pubdate": "2014-11-29T07:40:34",
-          "headline": "Ferguson protests target retailers across US",
-          "small_image_url": "http://www.aljazeera.com/mritems/imagecache/318/480/mritems/Images/2014/11/29/201411296437903580_20.jpg",
-          "type": "latest",
-          "id": 251,
-          "video_url": null
-        }
-      ]
-    }
-  ];
-
  function submit(){
 
+var results;
 
 //get article value
 var article = $('#textEditor').val();
 	//send article
+
+$.ajax({
+  type: "POST",
+  url: "http://localhost:8000/fulltext/",
+  data: JSON.stringify({"text": article}),
+  success: function(data) {
+    results = data['results'];
+  },
+  dataType: 'json',
+  async: false
+})
 
 
 //change the article text to an array of strings
@@ -209,23 +82,13 @@ for (var i = 0; i <= results.length - 1; i++) {
 
 function assignColors(numWords, arrayChange, entitynumber){
 
-	var color;
-
-	if(results[entitynumber].category === "person"){
-		color = "#f4bbd6";
-	}//close if
-	else if(results[entitynumber].category === "thing"){
-		color = "#a6dcf4";
-	}//close else if
-	else{
-		color = "#e3e960";
-	}//close else
+	var color = results[entitynumber]['color']
 
 	for(var k = numWords; k >= 0; k--) {
 
 		//change the HTML
 
-		articleArray[arrayChange+k] = '<span style="background-color:' + color + '" onclick="makeLinks(' + entitynumber + ')" class="needsLink">' + articleArray[arrayChange+k] + '</span>';
+		articleArray[arrayChange+k+1] = '<span style="background-color:' + color + '" onclick="makeLinks(' + entitynumber + ')" class="needsLink">' + articleArray[arrayChange+k+1] + '</span>';
 
 			
 	}//close for
@@ -254,8 +117,7 @@ $("div.container").html(htmlready);
 
 //makes the link box
 function makeLinks(entityIndex){
-
-	console.log("Make links is called!");
+  results = results['results'];
 
 	boxHTML = '<span class="title">Suggested Links</span>';
 
@@ -265,19 +127,19 @@ function makeLinks(entityIndex){
 
 	//refers to how many stories are in the entity
 
-	boxHTML = boxHTML + '<div class="oneLink"><span class="headline" onClick="linkMe("';
+	boxHTML = boxHTML + '<div class="oneLink"><span class="headline" onClick="linkMe()"> ';
 		console.log("1");
-	boxHTML = boxHTML + url;
-		console.log("2");
-	boxHTML = boxHTML + '")">';
+	//boxHTML = boxHTML + url;
+		//console.log("2");
+	//boxHTML = boxHTML + '")">';
 		console.log("3");
 	boxHTML = boxHTML + results[entityIndex].stories[g].headline;
 		console.log("4");
-	boxHTML = boxHTML + '<br></span><span class="byline">By';
+	boxHTML = boxHTML + '<br></span><span class="byline">By ';
 		console.log("5");
 	boxHTML = boxHTML + results[entityIndex].stories[g].byline;
 		console.log("6");
-	boxHTML = boxHTML + ',</span><span class="date">';
+	boxHTML = boxHTML + ',</span><span class="byline">';
 		console.log("7");
 	boxHTML = boxHTML + results[entityIndex].stories[g].pubdate;
 		console.log("8");
@@ -296,12 +158,12 @@ $("div.popupbox").show();
 
 var countofLinks = 0;
 
-function linkMe(yourLink){
+function linkMe(){
 	//error error error error error
 	console.log("You clicked a link!");
 	$("div.popupbox").hide();
-	$(".needsLink").slice(countofLinks,countofLinks).prepend('<a href=' + yourLink + '>');
-	$(".needsLink").slice(countofLinks,countofLinks).append('</a>');
+	//$(".needsLink").slice(countofLinks,countofLinks).prepend('<a href=' + yourLink + '>');
+	//$(".needsLink").slice(countofLinks,countofLinks).append('</a>');
 	countofLinks++;
 }//end link me
 
