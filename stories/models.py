@@ -1,4 +1,7 @@
 from django.db import models
+from textblob import TextBlob
+from collections import Counter
+from bs4 import BeautifulSoup
 
 class EntityType(models.Model):
     entity_type = models.CharField(max_length=255)
@@ -15,6 +18,12 @@ class Entity(models.Model):
     def __unicode__(self):
         return self.entity_name
 
+class NounCount(models.Model):
+    noun = models.CharField(max_length=255)
+    noun_count = models.IntegerField()
+    def __unicode__(self):
+        return self.noun
+
 class Story(models.Model):
     headline = models.CharField(max_length=255)
     headline_slug = models.SlugField(blank=True, null=True)
@@ -27,7 +36,27 @@ class Story(models.Model):
     video_url = models.URLField(blank=True, null=True)
     word_count = models.IntegerField()
     entities = models.ManyToManyField(Entity)
+    nouns = models.ManyToManyField(NounCount, blank=True, null=True)
     class Meta:
         verbose_name_plural = "stories"
+    def update_nouns(self):
+        text = self.full_text
+        soup = BeautifulSoup(text)
+        soup = soup.get_text()
+        blobtext = TextBlob(soup)
+        nouns = blobtext.noun_phrases
+        counts = dict(Counter(nouns))
+        for k, v in counts.items():
+            nounct = NounCount.objects.create(noun=k, noun_count=v)
+            noun = self.nouns.add(nounct)
     def __unicode__(self):
         return self.headline
+        
+class RelatedStories(models.Model):
+    story1 = models.ForeignKey(Story, related_name="story1")
+    story2 = models.ForeignKey(Story, related_name="story2")
+    story1count = models.IntegerField()
+    matchcount = models.IntegerField()
+    countsum = models.IntegerField()
+    def __unicode__(self):
+        return self.story1.headline
