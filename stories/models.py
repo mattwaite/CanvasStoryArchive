@@ -5,6 +5,7 @@ from collections import Counter
 from bs4 import BeautifulSoup
 from django.utils.html import strip_tags
 from django.utils.text import slugify
+from nltk.stem.snowball import SnowballStemmer
 
 class EntityType(models.Model):
     entity_type = models.CharField(max_length=255)
@@ -56,7 +57,11 @@ class Story(models.Model):
         soup = soup.get_text()
         blobtext = TextBlob(soup)
         nouns = blobtext.noun_phrases
-        counts = dict(Counter(nouns))
+        nouns = [elem for elem in nouns if not elem.startswith("'s ",0,4)] # strips out some junk that TextBlob is returning with possessive nouns
+        stems = []
+        for n in nouns:
+            stems.append(stemmer.stem(n))
+        counts = dict(Counter(stems))
         for k, v in counts.items():
             nounct = NounCount.objects.create(noun=k, noun_count=v)
             noun = self.nouns.add(nounct)
