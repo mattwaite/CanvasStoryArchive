@@ -5,7 +5,18 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 def get_relevant_stories(entity):
+    query_by_date = entity.story_set.order_by('pubdate')
+
+    stories = {}
+    stories['latest'] = query_by_date.last()
+    stories['earliest'] = query_by_date.first()
+    excluded_query = entity.story_set.exclude(id__in=[stories['latest'].id, stories['earliest'].id])
+    stories['longest'] = excluded_query.order_by('-word_count').first()
+    stories['video'] = excluded_query.exclude(id=stories['longest'].id).filter(video_url__isnull=False).first()
+    stories = dict(filter(lambda i: i[1] is not None, stories.items()))
+
     return [{
+        'type': story_type,
         'id': story.id,
         'headline': story.headline,
         'byline': story.byline,
@@ -14,7 +25,7 @@ def get_relevant_stories(entity):
         'large_image_url': story.large_image_url,
         'small_image_url': story.small_image_url,
         'video_url': story.video_url,
-    } for story in entity.story_set.all()]
+    } for story_type, story in stories.items()]
 
 
 def loop_through_words(words, words_offset=0, entity_matches=[]):
