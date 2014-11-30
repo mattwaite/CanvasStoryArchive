@@ -4,7 +4,7 @@ How do we make story archives more useful with smart uses of structured data and
 
 ##The Problem##
 
-Journalists and web producers know that the archives contain valuable context for current stories, but many avoid diving deep into the archives to find it. Why? Often, those archives are in terrible, proprietary systems that offer little more than a search box. More often, the person searching for that context doesn't have the time to dive through dozens or hundreds of stories to find the ones that are the most relevant.
+Journalists and web producers know that the archives contain valuable context for current stories, but many avoid diving deep into the archives to find it. Why? Often, those archives are in complex, proprietary systems that offer little more than a search box. More often, the person searching for that context doesn't have the time to dive through dozens or hundreds of stories to find the ones that are the most relevant.
 
 What if a simple algorithm could make the first pass for them? Then the journalist just has to pick the best stories for context using human judgement and news organizations can capture some of the value now trapped in those archives.
 
