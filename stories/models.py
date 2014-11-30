@@ -78,11 +78,11 @@ class Story(models.Model):
         nouns = [elem for elem in nouns if not elem.startswith("'s ",0,4)] # strips out some junk that TextBlob is returning with possessive nouns
         stems = []
         for n in nouns:
-            stems.append(stemmer.stem(n))
-        counts = dict(Counter(stems))
+            stems.append(stemmer.stem(n)) # now uses NLTK's stemming to normalize noun phrases
+        counts = dict(Counter(stems)) # count the instances of a noun phrase
         for k, v in counts.items():
-            nounct = NounCount.objects.create(noun=k, noun_count=v)
-            noun = self.nouns.add(nounct)
+            nounct = NounCount.objects.create(noun=k, noun_count=v) #update the nouns table
+            noun = self.nouns.add(nounct) # associate them to the story model
     def save(self, *args, **kwargs):
         self.word_count = len(strip_tags(self.full_text).split(' '))
         self.headline_slug = slugify(self.headline)
