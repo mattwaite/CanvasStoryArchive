@@ -1,10 +1,13 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from api.resources import StoryResource, EntityResource
+
+story_resource = StoryResource()
+entity_resource = EntityResource()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'archives.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/', include(story_resource.urls)),
+    url(r'^api/', include(entity_resource.urls)),
+    url(r'^fulltext/', 'stories.views.get_nested_entities', name='get_nested_entities')
 )
