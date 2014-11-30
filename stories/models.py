@@ -9,6 +9,19 @@ from django.utils.text import slugify
 class EntityType(models.Model):
     entity_type = models.CharField(max_length=255)
     entity_type_slug = models.SlugField()
+
+    PERSON=0
+    PLACE=1
+    ORGANIZATION=2
+    THING=3
+    SUPERTYPE_CHOICES = (
+        (PERSON, "Person"),
+        (PLACE, "Place"),
+        (ORGANIZATION, "Organization"),
+        (THING, "Thing")
+    )
+    supertype = models.PositiveSmallIntegerField(choices=SUPERTYPE_CHOICES, null=True, blank=True)
+
     def __unicode__(self):
         return self.entity_type
     def save(self, *args, **kwargs):
@@ -36,6 +49,10 @@ class NounCount(models.Model):
         return self.noun
 
 class Story(models.Model):
+    # These two fields shouldn't be blankable/nullable in the long run
+    link = models.URLField(blank=True, null=True)
+    guid = models.CharField(max_length=64, blank=True, null=True)
+
     headline = models.CharField(max_length=255)
     headline_slug = models.SlugField(blank=True, null=True)
     byline = models.CharField(max_length=255)
@@ -48,6 +65,7 @@ class Story(models.Model):
     word_count = models.IntegerField()
     entities = models.ManyToManyField(Entity)
     nouns = models.ManyToManyField(NounCount, blank=True, null=True)
+    editors_pick = models.BooleanField(default=False)
     class Meta:
         verbose_name_plural = "stories"
     def update_nouns(self):

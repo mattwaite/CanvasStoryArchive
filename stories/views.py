@@ -1,6 +1,6 @@
 import json
 import string
-from stories.models import Entity
+from stories.models import Entity, EntityType
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -16,8 +16,10 @@ def get_relevant_stories(entity):
     stories = dict(filter(lambda i: i[1] is not None, stories.items()))
 
     return [{
-        'type': story_type,
+        'context': context,
         'id': story.id,
+        'link': story.link,
+        'guid': story.guid,
         'headline': story.headline,
         'byline': story.byline,
         'pubdate': story.pubdate.strftime('%Y-%m-%dT%H:%M:%S'),
@@ -25,14 +27,21 @@ def get_relevant_stories(entity):
         'large_image_url': story.large_image_url,
         'small_image_url': story.small_image_url,
         'video_url': story.video_url,
-    } for story_type, story in stories.items()]
+    } for context, story in stories.items()]
 
+def get_color(entity_type):
+    if entity_type.supertype == EntityType.PERSON:
+        color = '#f4bbd6'
+    elif entity_type.supertype == EntityType.PLACE:
+        color = '#a6dcf4'
+    elif entity_type.supertype in (EntityType.ORGANIZATION, EntityType.THING):
+        color = '#e3e960'
+    return color
 
 def loop_through_words(words, words_offset=0, entity_matches=[]):
     for index, word in enumerate(words):
         e = Entity.objects.filter(entity_name__startswith=word
-            ).select_related('entity_type__entity_type'
-            ).prefetch_related('story_set')
+            ).select_related('entity_type').prefetch_related('story_set')
         for entity in e:
             entity_words = entity.entity_name.split(' ')
             entity_word_length = len(entity_words)
@@ -42,6 +51,7 @@ def loop_through_words(words, words_offset=0, entity_matches=[]):
                     'id': entity.id,
                     'entity_name': entity.entity_name,
                     'entity_type': entity.entity_type.entity_type,
+                    'color': get_color(entity.entity_type),
                     'entity_name_length': entity_word_length,
                     'stories': get_relevant_stories(entity),
                     'words_offset': new_offset
