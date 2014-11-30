@@ -1,7 +1,10 @@
 Django==1.7.1
+beautifulsoup4==4.3.2
 django-tastypie==0.12.1
+nltk==3.0.0
 python-dateutil==2.2
 python-mimeparse==0.1.4
 requests==2.4.3
 six==1.8.0
+textblob==0.9.0
 wsgiref==0.1.2
