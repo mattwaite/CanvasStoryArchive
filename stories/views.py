@@ -1,6 +1,5 @@
 import json
 import string
-import urllib
 from stories.models import Entity, EntityType
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -16,7 +15,7 @@ def get_relevant_stories(entity):
     excluded_stories += [stories['longest'].id if stories['longest'] is not None else None]
     stories['video'] = entity.story_set.exclude(id__in=excluded_stories).filter(video_url__isnull=False).first()
     stories = dict(filter(lambda i: i[1] is not None, stories.items()))
-
+    
     return [{
         'context': context,
         'id': story.id,
@@ -42,8 +41,10 @@ def get_color(entity_type):
 
 def loop_through_words(words, words_offset=0, entity_matches=[]):
     for index, word in enumerate(words):
-        e = Entity.objects.filter(entity_name__startswith=word
-            ).select_related('entity_type').prefetch_related('story_set')
+        if not word:
+            continue
+        e = Entity.objects.filter(entity_name__startswith=word,
+            ).select_related('entity_type__name', 'entity_type__supertype').prefetch_related('story_set')
         for entity in e:
             entity_words = entity.entity_name.split(' ')
             entity_word_length = len(entity_words)
