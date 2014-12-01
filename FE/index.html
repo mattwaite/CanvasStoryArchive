@@ -9,11 +9,13 @@
       border-color:#9e9e9e;
       border-padding:2px;
       display:none;
+      width:500px;
     }
     .oneLink {
       border-style:solid;
       border-width:2px;
       border-color:#9e9e9e;
+      width:500px;
     }
     .title {
       font-size:15px;
@@ -42,24 +44,32 @@
 <script type="text/javascript" src="outfile.json"></script>
 <script>
 
+var results;
+var urls = [];
+var urlCount = 0;
+
+function call_ajax(article) {
+    results = ''
+    $.ajax({
+          type: "POST",
+          url: "http://localhost:8000/fulltext/",
+          data: JSON.stringify({"text": article}),
+          success: function(data) {
+            results = data['results'];
+          },
+          dataType: 'json',
+          async: false
+    });
+}
+
  function submit(){
 
-var results;
 
 //get article value
 var article = $('#textEditor').val();
 	//send article
 
-$.ajax({
-  type: "POST",
-  url: "http://localhost:8000/fulltext/",
-  data: JSON.stringify({"text": article}),
-  success: function(data) {
-    results = data['results'];
-  },
-  dataType: 'json',
-  async: false
-})
+call_ajax(article);
 
 
 //change the article text to an array of strings
@@ -88,10 +98,9 @@ function assignColors(numWords, arrayChange, entitynumber){
 
 		//change the HTML
 
-		articleArray[arrayChange+k+1] = '<span style="background-color:' + color + '" onclick="makeLinks(' + entitynumber + ')" class="needsLink">' + articleArray[arrayChange+k+1] + '</span>';
+		articleArray[arrayChange+k+1] = '<a><span style="background-color:' + color + '" onclick="makeLinks(' + entitynumber + ')" class="needsLink">' + articleArray[arrayChange+k+1] + '</span></a>';
 
-			
-	}//close for
+    }//close for	
 }//close assignColors
 
 //Put the html back together using join
@@ -117,37 +126,25 @@ $("div.container").html(htmlready);
 
 //makes the link box
 function makeLinks(entityIndex){
-  results = results['results'];
-
 	boxHTML = '<span class="title">Suggested Links</span>';
 
 	for (var g = 0; g <= results[entityIndex].stories.length - 1; g++) {
 
-	var url = results[entityIndex].stories[g].small_image_url;
+	var url = results[entityIndex].stories[g].link;
+    urls.push(url);
+    urlCount += 1;
 
 	//refers to how many stories are in the entity
 
-	boxHTML = boxHTML + '<div class="oneLink"><span class="headline" onClick="linkMe()"> ';
-		console.log("1");
-	//boxHTML = boxHTML + url;
-		//console.log("2");
-	//boxHTML = boxHTML + '")">';
-		console.log("3");
-	boxHTML = boxHTML + results[entityIndex].stories[g].headline;
-		console.log("4");
-	boxHTML = boxHTML + '<br></span><span class="byline">By ';
-		console.log("5");
-	boxHTML = boxHTML + results[entityIndex].stories[g].byline;
-		console.log("6");
-	boxHTML = boxHTML + ',</span><span class="byline">';
-		console.log("7");
-	boxHTML = boxHTML + results[entityIndex].stories[g].pubdate;
-		console.log("8");
-	boxHTML = boxHTML + '</span></div>';
-		console.log("10");
-
-
-console.log("url is " + url);
+    boxHTML = boxHTML + '<div class="oneLink"><span class="headline" onclick=linkMe("'+urlCount+'")>';
+    //boxHTML = boxHTML + url;
+    //boxHTML = boxHTML + '")">';
+    boxHTML = boxHTML + results[entityIndex].stories[g].headline;
+    boxHTML = boxHTML + '<br></span><span class="byline">By ';
+    boxHTML = boxHTML + results[entityIndex].stories[g].byline;
+    boxHTML = boxHTML + ',</span><span class="byline">';
+    boxHTML = boxHTML + results[entityIndex].stories[g].pubdate;
+    boxHTML = boxHTML + '</span></div>';
 
 }//end for
 
@@ -158,12 +155,14 @@ $("div.popupbox").show();
 
 var countofLinks = 0;
 
-function linkMe(){
-	//error error error error error
-	console.log("You clicked a link!");
-	$("div.popupbox").hide();
-	//$(".needsLink").slice(countofLinks,countofLinks).prepend('<a href=' + yourLink + '>');
-	//$(".needsLink").slice(countofLinks,countofLinks).append('</a>');
+function linkMe(urlCount){
+    console.log(urlCount);
+    if ($(".needsLink")[urlCount].innerHTML) {
+        $(".needsLink")[urlCount].innerHTML = '<a href="' + urls[urlCount-1] + '">' + $(".needsLink")[urlCount].innerHTML + '</a>';
+    }
+    $("div.popupbox").hide();
+
+	//$(".headline a").slice(countofLinks,countofLinks).attr('href', yourLink);
 	countofLinks++;
 }//end link me
 
